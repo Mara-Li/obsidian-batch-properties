@@ -1,1 +1,21 @@
-{}
+{
+	"error": {
+		"csv": {
+			"malformed": "malformed file",
+			"noFileColumn": "{{- col}} is not present in the provided file.",
+			"noOtherColumn": "There is no property in the file",
+			"separator": "{{- sep}} is not good."
+		},
+		"noFile": "File not found, or wrong extension used.",
+		"noPath": "File not found"
+	},
+	"path": {
+		"desc": "Path to the file containing the batch properties to add",
+		"name": "Path",
+		"placeholder": "path/to/file.csv"
+	},
+	"separator": {
+		"md": "markdown",
+		"tab": "tabulation"
+	}
+}
