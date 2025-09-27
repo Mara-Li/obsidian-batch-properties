@@ -1,10 +1,7 @@
-
-<% if (data.settings === true) { %>
-export interface <%= data.interfaceName %>Settings {
+export interface BatchPropertiesSettings {
 	mySetting: string;
 }
 
-export const DEFAULT_SETTINGS: <%= data.interfaceName %>Settings = {
-	mySetting: "default"
+export const DEFAULT_SETTINGS: BatchPropertiesSettings = {
+	mySetting: "default",
 };
-<% } %>

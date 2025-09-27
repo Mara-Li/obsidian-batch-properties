@@ -1,14 +1,10 @@
 {
-	"id": "<%= data.id %>",
-	"name": "<%= data.name %>",
+	"id": "batch-properties",
+	"name": "Batch Properties",
 	"version": "0.0.0",
 	"minAppVersion": "1.5.12",
-	"description": "<%= data.description %>",
-	"author": "<%= data.author.name %>",
-	"authorUrl": "<%= data.author.url %>",
-	<%_ if (data.fundingURL) { _%>
-		"fundingUrl": "<%= data.fundingURL %>",
-	<%_
-	} _%>
-	"isDesktopOnly": <%= data.isDesktopOnly %>
+	"description": "Batch update the frontmatter from a CSV or a markdown tables",
+	"author": "Mara-Li",
+	"authorUrl": "https://github.com/Mara-Li",
+	"isDesktopOnly": false
 }
