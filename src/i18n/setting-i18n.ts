@@ -1,7 +1,13 @@
 // noinspection JSClassNamingConvention
 
 import i18next, { type TOptions } from "i18next";
-import { ExtraButtonComponent, SearchComponent, Setting, TextComponent } from "obsidian";
+import {
+	ExtraButtonComponent,
+	SearchComponent,
+	Setting,
+	TextAreaComponent,
+	TextComponent,
+} from "obsidian";
 
 // Deduces the type of valid keys from i18next (intersection with string to preserve the use of literals)
 export type I18nKey = Parameters<typeof i18next.t>[0] & string;
@@ -42,6 +48,9 @@ declare module "obsidian" {
 		 * */
 		setTooltips(key: I18nKey, options?: TOptions): this;
 	}
+	interface TextAreaComponent {
+		setPlaceholders(key: I18nKey, options?: TOptions): this;
+	}
 }
 
 // Runtime implementation of the setNames and setDescs methods
@@ -72,4 +81,11 @@ declare module "obsidian" {
 	options?: TOptions
 ) {
 	return this.setTooltip(i18next.t(key as any, options));
+};
+
+(TextAreaComponent as any).prototype.setPlaceholders = function (
+	key: I18nKey,
+	options?: TOptions
+) {
+	return this.setPlaceholder(i18next.t(key as any, options));
 };

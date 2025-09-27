@@ -1,9 +1,17 @@
-import { type App, PluginSettingTab, Setting, TFile } from "obsidian";
+import {
+	type App,
+	Notice,
+	PluginSettingTab,
+	Setting,
+	sanitizeHTMLToDom,
+	TFile,
+} from "obsidian";
 import type BatchProperties from "./main";
-import "./i18n/setting-i18n"; // extension setNames / setDescs / setPlaceholders
+import "./i18n/setting-i18n";
 import i18next from "i18next";
 import { FileSuggester } from "./FileSuggester";
 import type { BatchPropertiesSettings, Separator } from "./interfaces";
+import { ParseCSV } from "./parse_csv";
 import { Notices } from "./utils";
 
 export class BatchPropertiesSettingTab extends PluginSettingTab {
@@ -61,16 +69,56 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 				btn
 					.setIcon("save")
 					.setTooltips("path.verify")
-					.onClick(() => {
+					.onClick(async () => {
 						const file = this.app.vault.getAbstractFileByPath(this.settings.path);
 						if (!(file instanceof TFile)) {
 							Notices("path.error");
 							this.isInvalid = true;
 							this.display();
 						}
+						const contents = await this.plugin.readThesaurus();
+						try {
+							new ParseCSV(contents, this.settings, i18next.t).parse();
+							this.isInvalid = false;
+							this.display();
+						} catch (e) {
+							new Notice(
+								sanitizeHTMLToDom(`<span class="error">${(e as Error).message}</span>`)
+							);
+							this.isInvalid = true;
+							this.display();
+							return;
+						}
+						Notices("path.success");
 					});
 			});
 
 		if (this.isInvalid) batchPath.setClass("is-invalid");
+
+		new Setting(containerEl)
+			.setNames("columnName.name")
+			.setDescs("columnName.desc")
+			.addText((text) =>
+				text
+					.setValue(this.settings.columnName)
+					.setPlaceholder(i18next.t("columnName.placeholder"))
+					.onChange(async (value) => {
+						this.settings.columnName = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setNames("ignoreColumns.name")
+			.setDescs("ignoreColumns.desc")
+			.addTextArea((text) =>
+				text
+					.setValue(this.settings.ignoreColumns.join(","))
+					.setPlaceholders("ignoreColumns.placeholder")
+					.onChange(async (value) => {
+						this.settings.ignoreColumns = value.split(/[,\n]/).map((v) => v.trim());
+						await this.plugin.saveSettings();
+					})
+			);
 	}
 }

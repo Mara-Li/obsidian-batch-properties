@@ -1,3 +1,4 @@
+import autoParse from "auto-parse";
 import type { BatchPropertiesSettings, Separator, Translation } from "./interfaces";
 
 export class ParseCSV {
@@ -7,6 +8,7 @@ export class ParseCSV {
 	ln: Translation;
 	separatorRegex = /[,;\t\|]/;
 	fileType = "csv";
+	ignoredColumns: string[] = [];
 	constructor(contents: string, settings: BatchPropertiesSettings, ln: Translation) {
 		if (contents.trim().length === 0) throw new Error(ln("error.csv.malformed"));
 		this.contents = contents.split("\n");
@@ -14,6 +16,7 @@ export class ParseCSV {
 		this.separator = settings.separator === "md" ? "|" : settings.separator;
 		this.ln = ln;
 		this.fileType = settings.separator === "md" ? "md" : "csv";
+		this.ignoredColumns = settings.ignoreColumns;
 	}
 
 	private verifySeparator(header: string) {
@@ -59,21 +62,10 @@ export class ParseCSV {
 			if (filePath.length === 0) continue;
 			data[filePath] = {};
 			columns.forEach((col) => {
-				data[filePath][col] = values[header.indexOf(col)];
+				if (this.ignoredColumns.includes(col)) return;
+				data[filePath][col] = autoParse(values[header.indexOf(col)]);
 			});
 		}
 		return data;
-	}
-
-	private convertToStructuredData(value: string) {
-		try {
-			const converted = JSON.parse(value);
-			if (typeof converted === "string" && converted.split(",").length > 1) {
-				return converted.split(",").map((v) => v.trim());
-			}
-			return converted;
-		} catch {
-			return value;
-		}
 	}
 }

@@ -1,4 +1,9 @@
 {
+	"columnName": {
+		"desc": "The column name that should contains the path to the file that should be batched.",
+		"name": "Column name",
+		"placeholder": "filepath"
+	},
 	"error": {
 		"csv": {
 			"malformed": "malformed file",
@@ -8,6 +13,9 @@
 		},
 		"noFile": "File not found, or wrong extension used.",
 		"noPath": "File not found"
+	},
+	"ignoreColumns": {
+		"placeholder": "col1, col2, col3"
 	},
 	"path": {
 		"desc": "Path to the file containing the batch properties to add",
