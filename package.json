@@ -26,9 +26,10 @@
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
     "@types/node": "^24.5.2",
+    "auto-parse": "^2.4.0",
     "builtin-modules": "5.0.0",
-    "i18next": "^25.5.2",
     "esbuild": "0.25.10",
+    "i18next": "^25.5.2",
     "obsidian": "^1.8.7",
     "tslib": "2.8.1",
     "typescript": "^5.9.2"
@@ -48,6 +49,7 @@
     "dotenv": "^17.2.2",
     "dotenv-cli": "^10.0.0",
     "obsidian-typings": "^4.51.0",
+    "uniformize": "^2.5.0",
     "wdio-obsidian-reporter": "^2.1.2",
     "wdio-obsidian-service": "^2.1.2"
   },
