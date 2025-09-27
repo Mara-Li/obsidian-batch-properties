@@ -1,0 +1,10 @@
+{
+	"id": "sample-plugin",
+	"name": "Sample Plugin",
+	"version": "0.0.0",
+	"minAppVersion": "1.5.12",
+	"description": "This is a sample plugin",
+	"author": "Mara",
+	"authorUrl": "https://github.com/Mara",
+	"isDesktopOnly": false
+}
