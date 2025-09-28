@@ -145,5 +145,15 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				})
 			);
+
+		new Setting(containerEl)
+			.setNames("openModal.name")
+			.setDescs("openModal.desc")
+			.addToggle((toggle) =>
+				toggle.setValue(this.settings.openModal).onChange(async (value) => {
+					this.settings.openModal = value;
+					await this.plugin.saveSettings();
+				})
+			);
 	}
 }

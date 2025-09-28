@@ -13,10 +13,15 @@
 	box-shadow: none;
 }
 
+.batch-properties input {
+	font-family: var(--font-monospace);
+}
+
 .batch-properties textarea {
 	width: 100%;
 	resize: vertical;
 	min-height: 8em;
+	font-family: var(--font-monospace);
 }
 
 .batch-properties h2.updated {

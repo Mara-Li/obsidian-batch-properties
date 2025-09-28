@@ -129,7 +129,7 @@ export default class BatchProperties extends Plugin {
 		// biome-ignore lint/correctness/noUndeclaredVariables: sleep is declared globally by Obsidian
 		await sleep(2000); //to allow the notice to be seen
 		noticeBar.hide();
-		new ResutModal(this.app, results).open();
+		if (this.settings.openModal) new ResutModal(this.app, results).open();
 	}
 
 	async addToFrontmatter(file: TFile, toAdd: Record<string, any>) {

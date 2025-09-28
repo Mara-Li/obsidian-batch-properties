@@ -39,6 +39,10 @@
 		"completed": "Done",
 		"loading": "Loading"
 	},
+	"openModal": {
+		"desc": "Open a modal displaying the results after the batch.",
+		"name": "Open result"
+	},
 	"path": {
 		"desc": "Path to the file containing the batch properties to add",
 		"name": "Path",
