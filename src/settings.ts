@@ -90,8 +90,8 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 								contents,
 								this.settings,
 								i18next.t,
-								this.app,
-								this.settings.path
+								this.settings.path,
+								this.app
 							).parse();
 							this.isInvalid = false;
 							this.display();

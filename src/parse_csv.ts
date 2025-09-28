@@ -11,13 +11,13 @@ export class ParseCSV {
 	separatorRegex = /[,;\t\|]/;
 	fileType = "csv";
 	ignoredColumns: string[] = [];
-	app: App;
+	app?: App;
 	constructor(
 		contents: string,
 		settings: BatchPropertiesSettings,
 		ln: Translation,
-		app: App,
-		sourcePath: string
+		sourcePath: string,
+		app?: App
 	) {
 		if (contents.trim().length === 0) throw new Error(ln("error.csv.malformed"));
 		this.contents = contents.split("\n");
@@ -59,6 +59,7 @@ export class ParseCSV {
 	}
 
 	private getLinkPath(filePath: string) {
+		if (!this.app) return filePath.trim();
 		return (
 			this.app.metadataCache.getFirstLinkpathDest(filePath.trim(), this.sourcePath)
 				?.path ?? filePath.trim()

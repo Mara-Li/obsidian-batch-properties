@@ -19,8 +19,9 @@ describe("parse from markdown correctly", () => {
 			path: "file.md",
 			ignoreColumns: [],
 			createMissing: false,
+			openModal: false,
 		};
-		const parser = new ParseCSV(markdownTable, settings, mockTranslation);
+		const parser = new ParseCSV(markdownTable, settings, mockTranslation, "file.md");
 		const result = parser.parse();
 		expect(result).toEqual({
 			"folder1/note1.md": { username: "alice", age: 30, city: "New York" },
@@ -42,8 +43,9 @@ describe("parse from markdown correctly", () => {
 			path: "file.md",
 			ignoreColumns: [],
 			createMissing: false,
+			openModal: false,
 		};
-		const parser = new ParseCSV(markdownTable, settings, mockTranslation);
+		const parser = new ParseCSV(markdownTable, settings, mockTranslation, "file.md");
 		const result = parser.parse();
 		expect(result).toEqual({
 			"folder1/note1.md": { tags: ["tag1", "tag2", "tag3"] },
@@ -65,8 +67,9 @@ describe("parse from markdown correctly", () => {
 			ignoreColumns: ["age", "city"],
 			path: "file.md",
 			createMissing: false,
+			openModal: false,
 		};
-		const parser = new ParseCSV(markdownTable, settings, mockTranslation);
+		const parser = new ParseCSV(markdownTable, settings, mockTranslation, "file.md");
 		const result = parser.parse();
 		expect(result).toEqual({
 			"folder1/note1.md": { username: "alice" },

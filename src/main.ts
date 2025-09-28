@@ -91,8 +91,8 @@ export default class BatchProperties extends Plugin {
 			contents,
 			this.settings,
 			i18next.t,
-			this.app,
-			this.settings.path
+			this.settings.path,
+			this.app
 		).parse();
 		const results: Results = [];
 		const maxLength = Object.keys(data).length;
