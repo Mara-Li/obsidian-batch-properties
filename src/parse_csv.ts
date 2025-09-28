@@ -138,6 +138,7 @@ export class ParseCSV {
 	}
 
 	private removeFormatFilePath(filePath: string) {
+		filePath = filePath.replace(/(^"|"$)/g, "").trim();
 		const wikiLinksRegex = /\[{2}(.*?)((\\)?\|.*?)?\]{2}/;
 		const markdownLinksRegex = /\[.*?\]\((.*)\)/;
 		const wikiMatch = filePath.match(wikiLinksRegex);
@@ -169,7 +170,9 @@ export class ParseCSV {
 				if (this.ignoredColumns.includes(col)) return;
 				const res = values[header.indexOf(col)];
 				if (!res || res.length === 0) return;
-				data[parsedFilePath][col] = autoParse(res, { booleanSynonyms: true });
+				data[parsedFilePath][col] = autoParse(res.replace(/(^"|"$)/g, "").trim(), {
+					booleanSynonyms: true,
+				});
 			});
 		}
 		return data;
