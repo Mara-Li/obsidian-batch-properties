@@ -28,7 +28,6 @@ export class ParseCSV {
 		this.ignoredColumns = settings.ignoreColumns;
 		this.app = app;
 		this.sourcePath = sourcePath;
-		console.log("[Batch Properties] Parsing CSV with settings");
 	}
 
 	private splitTable(line: string) {
@@ -116,7 +115,7 @@ export class ParseCSV {
 	getHeader() {
 		return this.contents[0]
 			.split(this.separator)
-			.map((h) => h.trim())
+			.map((h) => h.trim().replace(/(^"|"$)/g, ""))
 			.filter((h) => h.length > 0);
 	}
 
@@ -132,10 +131,6 @@ export class ParseCSV {
 	private getLinkPath(filePath: string, needExtension = false) {
 		const ext = needExtension ? ".md" : "";
 		if (!this.app) return filePath.trim() + ext;
-		console.log(
-			this.app.metadataCache.getFirstLinkpathDest(filePath.trim(), this.sourcePath)
-				?.path ?? filePath.trim() + ext
-		);
 		return (
 			this.app.metadataCache.getFirstLinkpathDest(filePath.trim(), this.sourcePath)
 				?.path ?? filePath.trim() + ext
@@ -146,7 +141,6 @@ export class ParseCSV {
 		const wikiLinksRegex = /\[{2}(.*?)((\\)?\|.*?)?\]{2}/;
 		const markdownLinksRegex = /\[.*?\]\((.*)\)/;
 		const wikiMatch = filePath.match(wikiLinksRegex);
-		console.log("WikiMatch", wikiMatch, filePath);
 		if (wikiMatch) return this.getLinkPath(wikiMatch[1].trim(), true);
 		const mdMatch = filePath.match(markdownLinksRegex);
 		if (mdMatch) return this.getLinkPath(mdMatch[1].trim());
