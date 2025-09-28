@@ -18,6 +18,7 @@ describe("parse from markdown correctly", () => {
 			columnName: "filepath",
 			path: "file.md",
 			ignoreColumns: [],
+			createMissing: false,
 		};
 		const parser = new ParseCSV(markdownTable, settings, mockTranslation);
 		const result = parser.parse();
@@ -40,6 +41,7 @@ describe("parse from markdown correctly", () => {
 			columnName: "filepath",
 			path: "file.md",
 			ignoreColumns: [],
+			createMissing: false,
 		};
 		const parser = new ParseCSV(markdownTable, settings, mockTranslation);
 		const result = parser.parse();
@@ -62,6 +64,7 @@ describe("parse from markdown correctly", () => {
 			columnName: "filepath",
 			ignoreColumns: ["age", "city"],
 			path: "file.md",
+			createMissing: false,
 		};
 		const parser = new ParseCSV(markdownTable, settings, mockTranslation);
 		const result = parser.parse();

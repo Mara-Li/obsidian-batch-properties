@@ -18,3 +18,29 @@
 	resize: vertical;
 	min-height: 8em;
 }
+
+.batch-properties h2.updated {
+	margin-bottom: 0 !important;
+	font-size: 1.5rem;
+	color: var(--text-success);
+}
+
+.batch-properties ul {
+	margin-top: 0;
+}
+
+.batch-properties h2.error {
+	margin-bottom: 0 !important;
+	color: var(--text-error);
+	font-size: 1.5rem;
+}
+
+.batch-properties h2.created {
+	margin-bottom: 0 !important;
+	font-size: 1.5rem;
+	color: var(--text-warning);
+}
+
+.batch-properties.modal-title {
+	text-align: center;
+}

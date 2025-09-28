@@ -1,10 +1,16 @@
 import i18next from "i18next";
-import { getFrontMatterInfo, Plugin, TFile } from "obsidian";
+import { getFrontMatterInfo, Notice, Plugin, sanitizeHTMLToDom, TFile } from "obsidian";
 import { resources, translationLanguage } from "./i18n";
 import "uniformize";
 
-import { type BatchPropertiesSettings, DEFAULT_SETTINGS } from "./interfaces";
+import {
+	type BatchPropertiesSettings,
+	DEFAULT_SETTINGS,
+	type Result,
+	type Results,
+} from "./interfaces";
 import { ParseCSV } from "./parse_csv";
+import { ResutModal } from "./result_modals";
 import { BatchPropertiesSettingTab } from "./settings";
 
 export default class BatchProperties extends Plugin {
@@ -26,6 +32,19 @@ export default class BatchProperties extends Plugin {
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new BatchPropertiesSettingTab(this.app, this));
+
+		this.addCommand({
+			id: "batch-properties",
+			name: i18next.t("command.name"),
+			callback: async () => {
+				try {
+					await this.batch();
+				} catch (e) {
+					console.error(e);
+					new Notice(`<span class="error">❌ ${(e as Error).message}</span>`, 0);
+				}
+			},
+		});
 	}
 
 	async readBatch() {
@@ -44,30 +63,73 @@ export default class BatchProperties extends Plugin {
 		return contents;
 	}
 
+	async createFileIfNotExists(
+		filePath: string
+	): Promise<{ file: TFile; isCreated: boolean }> {
+		if (!filePath.endsWith(".md"))
+			throw new Error(i18next.t("error.notMarkdown", { file: filePath }));
+
+		const file = this.app.vault.getAbstractFileByPath(filePath);
+		if (!file && this.settings.createMissing) {
+			return {
+				file: await this.app.vault.create(filePath, ""),
+				isCreated: true,
+			};
+		}
+
+		if (!file || !(file instanceof TFile))
+			throw new Error(i18next.t("error.noFile", { file: filePath }));
+
+		return { file, isCreated: false };
+	}
+
 	async batch() {
 		const contents = await this.readBatch();
 		const data = new ParseCSV(contents, this.settings, i18next.t).parse();
-		let errors = 0;
-		const updated = 0;
+		const results: Results = [];
+		const maxLength = Object.keys(data).length;
+		const noticeBar = new Notice(`📤 ${i18next.t("notice.loading")} 0/${maxLength}\``, 0);
+		let processed = 0;
 		for (const filePath of Object.keys(data)) {
-			let file = this.app.vault.getAbstractFileByPath(filePath);
-			if (!file && this.settings.createMissing) {
-				file = await this.app.vault.create(filePath, "");
-			} else if (!file && !this.settings.createMissing) {
-				console.warn(i18next.t("warn.noFile", { file: filePath }));
-				errors++;
-				continue;
-			} else if (file && !(file instanceof TFile)) {
-				if (this.settings.createMissing) {
-					file = await this.app.vault.create(filePath, "");
-				} else {
-					console.warn(i18next.t("warn.noFile", { file: filePath }));
-					errors++;
-					continue;
-				}
-			}
+			const result: Result = {
+				file: filePath,
+				type: "updated",
+			};
 			const toAddInFrontmatter = data[filePath];
+			processed += 1;
+			noticeBar.setMessage(`📤 ${i18next.t("notice.loading")} ${processed}/${maxLength}`);
+			// biome-ignore lint/correctness/noUndeclaredVariables: sleep is declared globally by Obsidian
+			await sleep(500); //to allow the notice to update
+			try {
+				const { file, isCreated } = await this.createFileIfNotExists(filePath);
+				if (isCreated) result.type = "created";
+				results.push(result);
+
+				await this.addToFrontmatter(file, toAddInFrontmatter);
+			} catch (e) {
+				console.error(e);
+				result.type = "error";
+				result.error = (e as Error).message;
+				results.push(result);
+			}
 		}
+		noticeBar.setMessage(
+			sanitizeHTMLToDom(
+				`<span class="success">✅ ${i18next.t("notice.completed")}</span>`
+			)
+		);
+		// biome-ignore lint/correctness/noUndeclaredVariables: sleep is declared globally by Obsidian
+		await sleep(2000); //to allow the notice to be seen
+		noticeBar.hide();
+		new ResutModal(this.app, results).open();
+	}
+
+	async addToFrontmatter(file: TFile, toAdd: Record<string, any>) {
+		await this.app.fileManager.processFrontMatter(file, (fm) => {
+			for (const key of Object.keys(toAdd)) {
+				fm[key] = toAdd[key];
+			}
+		});
 	}
 
 	onunload() {

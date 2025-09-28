@@ -4,6 +4,9 @@
 		"name": "Column name",
 		"placeholder": "filepath"
 	},
+	"command": {
+		"name": "Batch all files"
+	},
 	"createMissing": {
 		"desc": "If the file to add the properties doesn't exists, it will be created.",
 		"name": "Create missing file"
@@ -17,17 +20,33 @@
 		},
 		"noFile": "File not found, or wrong extension used.",
 		"noPath": "The path to the batch file is empty!",
-		"notFound": "The batch is not found at the provided path ({{- path}})."
+		"notFound": "The batch is not found at the provided path ({{- path}}).",
+		"notMarkdown": "The plugin can only create properties for markdown file."
 	},
 	"ignoreColumns": {
 		"desc": "The data in theses column won't be added in the properties.",
 		"name": "Columns to ignore",
 		"placeholder": "col1, col2, col3"
 	},
+	"modal": {
+		"created": "Created",
+		"errors": "Errors",
+		"noChanges": "No change",
+		"success": "Success",
+		"updated": "Updated"
+	},
+	"notice": {
+		"completed": "Done",
+		"loading": "Loading"
+	},
 	"path": {
 		"desc": "Path to the file containing the batch properties to add",
 		"name": "Path",
-		"placeholder": "path/to/file.csv"
+		"placeholder": "path/to/file.csv",
+		"success": "File properly parsed, can be used for batching."
+	},
+	"result": {
+		"title": "Results"
 	},
 	"separator": {
 		"comma": "Comma",

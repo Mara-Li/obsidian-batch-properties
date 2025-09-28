@@ -90,6 +90,7 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 							this.isInvalid = false;
 							this.display();
 						} catch (e) {
+							console.error(e);
 							new Notice(
 								sanitizeHTMLToDom(`<span class="error">${(e as Error).message}</span>`)
 							);

@@ -17,6 +17,7 @@ export class ParseCSV {
 		this.ln = ln;
 		this.fileType = settings.separator === "md" ? "md" : "csv";
 		this.ignoredColumns = settings.ignoreColumns;
+		console.log("[Batch Properties] Parsing CSV with settings");
 	}
 
 	private verifySeparator(header: string) {
@@ -24,14 +25,17 @@ export class ParseCSV {
 	}
 
 	private countColumns(header: string): number {
-		return header.split(this.separatorRegex).length;
+		return header
+			.split(this.separatorRegex)
+			.map((x) => x.trim())
+			.filter((x) => x.length > 0).length;
 	}
 
 	getHeader() {
 		return this.contents[0]
 			.split(this.separator)
-			.filter((h) => h.trim() !== "")
-			.map((h) => h.trim());
+			.map((h) => h.trim())
+			.filter((h) => h.length > 0);
 	}
 
 	getIndexColumns(header: string[]) {
@@ -59,11 +63,13 @@ export class ParseCSV {
 				.map((v) => v.trim())
 				.filter((v) => v !== "");
 			const filePath = values[indexFilePath];
-			if (filePath.length === 0) continue;
+			if (!filePath || filePath.length === 0) continue;
 			data[filePath] = {};
 			columns.forEach((col) => {
 				if (this.ignoredColumns.includes(col)) return;
-				data[filePath][col] = autoParse(values[header.indexOf(col)]);
+				const res = values[header.indexOf(col)];
+				if (!res || res.length === 0) return;
+				data[filePath][col] = autoParse(res);
 			});
 		}
 		return data;

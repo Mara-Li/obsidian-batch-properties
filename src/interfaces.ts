@@ -18,3 +18,11 @@ export const DEFAULT_SETTINGS: BatchPropertiesSettings = {
 export type Translation = TFunction<"translation", undefined>;
 
 export type Separator = ";" | "," | "\t" | "|" | "md";
+
+export interface Result {
+	file: string;
+	type: "updated" | "created" | "error";
+	error?: string;
+}
+
+export type Results = Result[];
