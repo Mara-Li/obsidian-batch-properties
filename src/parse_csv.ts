@@ -1,15 +1,24 @@
 import autoParse from "auto-parse";
+import type { App } from "obsidian";
 import type { BatchPropertiesSettings, Separator, Translation } from "./interfaces";
 
 export class ParseCSV {
 	contents: string[] = [];
+	sourcePath: string;
 	fileColumnName: string = "filepath";
 	separator: Separator = ",";
 	ln: Translation;
 	separatorRegex = /[,;\t\|]/;
 	fileType = "csv";
 	ignoredColumns: string[] = [];
-	constructor(contents: string, settings: BatchPropertiesSettings, ln: Translation) {
+	app: App;
+	constructor(
+		contents: string,
+		settings: BatchPropertiesSettings,
+		ln: Translation,
+		app: App,
+		sourcePath: string
+	) {
 		if (contents.trim().length === 0) throw new Error(ln("error.csv.malformed"));
 		this.contents = contents.split("\n");
 		this.fileColumnName = settings.columnName;
@@ -17,6 +26,8 @@ export class ParseCSV {
 		this.ln = ln;
 		this.fileType = settings.separator === "md" ? "md" : "csv";
 		this.ignoredColumns = settings.ignoreColumns;
+		this.app = app;
+		this.sourcePath = sourcePath;
 		console.log("[Batch Properties] Parsing CSV with settings");
 	}
 
@@ -47,6 +58,23 @@ export class ParseCSV {
 		return { indexFilePath, columns };
 	}
 
+	private getLinkPath(filePath: string) {
+		return (
+			this.app.metadataCache.getFirstLinkpathDest(filePath.trim(), this.sourcePath)
+				?.path ?? filePath.trim()
+		);
+	}
+
+	private removeFormatFilePath(filePath: string) {
+		const wikiLinksRegex = /\[{2}(.*)(\|.*?)?\]{2}/;
+		const markdownLinksRegex = /\[.*?\]\((.*)\)/;
+		const wikiMatch = filePath.match(wikiLinksRegex);
+		if (wikiMatch) return this.getLinkPath(wikiMatch[1].trim());
+		const mdMatch = filePath.match(markdownLinksRegex);
+		if (mdMatch) return this.getLinkPath(mdMatch[1].trim());
+		return filePath;
+	}
+
 	parse(): Record<string, Record<string, any>> {
 		if (this.countColumns(this.contents[0]) <= 1)
 			throw new Error(this.ln("error.csv.malformed"));
@@ -64,12 +92,13 @@ export class ParseCSV {
 				.filter((v) => v !== "");
 			const filePath = values[indexFilePath];
 			if (!filePath || filePath.length === 0) continue;
-			data[filePath] = {};
+			const parsedFilePath = this.removeFormatFilePath(filePath);
+			data[parsedFilePath] = {};
 			columns.forEach((col) => {
 				if (this.ignoredColumns.includes(col)) return;
 				const res = values[header.indexOf(col)];
 				if (!res || res.length === 0) return;
-				data[filePath][col] = autoParse(res);
+				data[parsedFilePath][col] = autoParse(res);
 			});
 		}
 		return data;

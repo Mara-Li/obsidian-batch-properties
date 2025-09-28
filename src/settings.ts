@@ -86,7 +86,13 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 						}
 						const contents = await this.plugin.readBatch();
 						try {
-							new ParseCSV(contents, this.settings, i18next.t).parse();
+							new ParseCSV(
+								contents,
+								this.settings,
+								i18next.t,
+								this.app,
+								this.settings.path
+							).parse();
 							this.isInvalid = false;
 							this.display();
 						} catch (e) {

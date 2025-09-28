@@ -41,7 +41,10 @@ export default class BatchProperties extends Plugin {
 					await this.batch();
 				} catch (e) {
 					console.error(e);
-					new Notice(`<span class="error">❌ ${(e as Error).message}</span>`, 0);
+					new Notice(
+						sanitizeHTMLToDom(`<span class="error">❌ ${(e as Error).message}</span>`),
+						0
+					);
 				}
 			},
 		});
@@ -69,7 +72,7 @@ export default class BatchProperties extends Plugin {
 		if (!filePath.endsWith(".md"))
 			throw new Error(i18next.t("error.notMarkdown", { file: filePath }));
 
-		const file = this.app.vault.getAbstractFileByPath(filePath);
+		const file = this.app.vault.getFileByPath(filePath);
 		if (!file && this.settings.createMissing) {
 			return {
 				file: await this.app.vault.create(filePath, ""),
@@ -77,15 +80,20 @@ export default class BatchProperties extends Plugin {
 			};
 		}
 
-		if (!file || !(file instanceof TFile))
-			throw new Error(i18next.t("error.noFile", { file: filePath }));
+		if (!file) throw new Error(i18next.t("error.noFile", { file: filePath }));
 
 		return { file, isCreated: false };
 	}
 
 	async batch() {
 		const contents = await this.readBatch();
-		const data = new ParseCSV(contents, this.settings, i18next.t).parse();
+		const data = new ParseCSV(
+			contents,
+			this.settings,
+			i18next.t,
+			this.app,
+			this.settings.path
+		).parse();
 		const results: Results = [];
 		const maxLength = Object.keys(data).length;
 		const noticeBar = new Notice(`📤 ${i18next.t("notice.loading")} 0/${maxLength}\``, 0);
