@@ -4,6 +4,7 @@ import { resources, translationLanguage } from "./i18n";
 import "uniformize";
 
 import { type BatchPropertiesSettings, DEFAULT_SETTINGS } from "./interfaces";
+import { ParseCSV } from "./parse_csv";
 import { BatchPropertiesSettingTab } from "./settings";
 
 export default class BatchProperties extends Plugin {
@@ -27,7 +28,7 @@ export default class BatchProperties extends Plugin {
 		this.addSettingTab(new BatchPropertiesSettingTab(this.app, this));
 	}
 
-	async readThesaurus() {
+	async readBatch() {
 		if (this.settings.path.length === 0) throw new Error(i18next.t("error.noPath"));
 		const file = this.app.vault.getAbstractFileByPath(this.settings.path);
 		const ext = this.settings.separator === "md" ? "md" : "csv";
@@ -41,6 +42,32 @@ export default class BatchProperties extends Plugin {
 			return contents;
 		}
 		return contents;
+	}
+
+	async batch() {
+		const contents = await this.readBatch();
+		const data = new ParseCSV(contents, this.settings, i18next.t).parse();
+		let errors = 0;
+		const updated = 0;
+		for (const filePath of Object.keys(data)) {
+			let file = this.app.vault.getAbstractFileByPath(filePath);
+			if (!file && this.settings.createMissing) {
+				file = await this.app.vault.create(filePath, "");
+			} else if (!file && !this.settings.createMissing) {
+				console.warn(i18next.t("warn.noFile", { file: filePath }));
+				errors++;
+				continue;
+			} else if (file && !(file instanceof TFile)) {
+				if (this.settings.createMissing) {
+					file = await this.app.vault.create(filePath, "");
+				} else {
+					console.warn(i18next.t("warn.noFile", { file: filePath }));
+					errors++;
+					continue;
+				}
+			}
+			const toAddInFrontmatter = data[filePath];
+		}
 	}
 
 	onunload() {

@@ -1,8 +1,20 @@
-/*
+.notice:has(.success) {
+	color: var(--text-success);
+	background-color: rgba(var(--background-modifier-success-rgb), 0.2);
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.notice:has(.error) {
+	color: var(--text-error);
+	background-color: rgba(var(--background-modifier-error-rgb), 0.2);
+}
 
-If your plugin does not need CSS, delete this file.
+.batch-properties .is-invalid input {
+	border-color: var(--text-error);
+	box-shadow: none;
+}
 
-*/
+.batch-properties textarea {
+	width: 100%;
+	resize: vertical;
+	min-height: 8em;
+}

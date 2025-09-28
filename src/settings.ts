@@ -30,15 +30,17 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
+		containerEl.addClass("batch-properties");
+
 		new Setting(containerEl)
 			.setNames("separator.name")
 			.setDescs("separator.desc")
 			.addDropdown((dropdown) => {
 				dropdown
-					.addOption(";", ";")
-					.addOption(",", ",")
+					.addOption(";", `${i18next.t("separator.semicolon")}`)
+					.addOption(",", `${i18next.t("separator.comma")}`)
 					.addOption("\t", `${i18next.t("separator.tab")}`)
-					.addOption("|", "|")
+					.addOption("|", `${i18next.t("separator.pipe")}`)
 					.addOption("md", `${i18next.t("separator.md")}`)
 					.setValue(this.settings.separator)
 					.onChange(async (value) => {
@@ -70,13 +72,19 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 					.setIcon("save")
 					.setTooltips("path.verify")
 					.onClick(async () => {
+						if (this.settings.path.length === 0) {
+							Notices("error.noPath", { type: "error" });
+							this.isInvalid = true;
+							this.display();
+							return;
+						}
 						const file = this.app.vault.getAbstractFileByPath(this.settings.path);
 						if (!(file instanceof TFile)) {
-							Notices("path.error");
+							Notices("error.notFound");
 							this.isInvalid = true;
 							this.display();
 						}
-						const contents = await this.plugin.readThesaurus();
+						const contents = await this.plugin.readBatch();
 						try {
 							new ParseCSV(contents, this.settings, i18next.t).parse();
 							this.isInvalid = false;
@@ -89,7 +97,7 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 							this.display();
 							return;
 						}
-						Notices("path.success");
+						Notices("path.success", { type: "success" });
 					});
 			});
 
@@ -119,6 +127,16 @@ export class BatchPropertiesSettingTab extends PluginSettingTab {
 						this.settings.ignoreColumns = value.split(/[,\n]/).map((v) => v.trim());
 						await this.plugin.saveSettings();
 					})
+			);
+
+		new Setting(containerEl)
+			.setNames("createMissing.name")
+			.setDescs("createMissing.desc")
+			.addToggle((toggle) =>
+				toggle.setValue(this.settings.createMissing).onChange(async (value) => {
+					this.settings.createMissing = value;
+					await this.plugin.saveSettings();
+				})
 			);
 	}
 }

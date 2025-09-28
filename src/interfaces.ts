@@ -5,6 +5,7 @@ export interface BatchPropertiesSettings {
 	path: string;
 	columnName: string;
 	ignoreColumns: string[];
+	createMissing: boolean;
 }
 
 export const DEFAULT_SETTINGS: BatchPropertiesSettings = {
@@ -12,6 +13,7 @@ export const DEFAULT_SETTINGS: BatchPropertiesSettings = {
 	separator: ";",
 	columnName: "Filepath",
 	ignoreColumns: [],
+	createMissing: false,
 };
 export type Translation = TFunction<"translation", undefined>;
 

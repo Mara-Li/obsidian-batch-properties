@@ -4,17 +4,24 @@
 		"name": "Column name",
 		"placeholder": "filepath"
 	},
+	"createMissing": {
+		"desc": "If the file to add the properties doesn't exists, it will be created.",
+		"name": "Create missing file"
+	},
 	"error": {
 		"csv": {
-			"malformed": "malformed file",
+			"malformed": "Your CSV is malformed: there is no column.",
 			"noFileColumn": "{{- col}} is not present in the provided file.",
 			"noOtherColumn": "There is no property in the file",
-			"separator": "{{- sep}} is not good."
+			"separator": "The specified separator is invalid. You seems to use \"{{- sep}}\" as separator."
 		},
 		"noFile": "File not found, or wrong extension used.",
-		"noPath": "File not found"
+		"noPath": "The path to the batch file is empty!",
+		"notFound": "The batch is not found at the provided path ({{- path}})."
 	},
 	"ignoreColumns": {
+		"desc": "The data in theses column won't be added in the properties.",
+		"name": "Columns to ignore",
 		"placeholder": "col1, col2, col3"
 	},
 	"path": {
@@ -23,7 +30,15 @@
 		"placeholder": "path/to/file.csv"
 	},
 	"separator": {
-		"md": "markdown",
-		"tab": "tabulation"
+		"comma": "Comma",
+		"desc": "CSV column separator.",
+		"md": "Markdown table",
+		"name": "Separator",
+		"pipe": "Pipe",
+		"semicolon": "Semicolon",
+		"tab": "Tabulation"
+	},
+	"warn": {
+		"noFile": "The {{- file}} doesn't exists, skipping."
 	}
 }
