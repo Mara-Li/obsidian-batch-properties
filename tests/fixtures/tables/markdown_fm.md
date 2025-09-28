@@ -3,12 +3,12 @@ title: "Markdown Table"
 description: "A table formatted in Markdown"
 ---
 
-| filepath          | username | age | city        | tags                | data                                                                                                                 | ignored | private |
-|-------------------|----------|-----|-------------|---------------------|----------------------------------------------------------------------------------------------------------------------|---------|---------|
-| file1.md          | alice    | 30  | New York    | ["hello", "coucou"] | {"address":{"number":53,"street":"Via Verbano","postalCode":9604,"city":"New York","country":"USA"}}                 | true    | yes     |
-| file2.md          | bob      | 25  | Los Angeles | ["tag4", "tag5"]    | {"address":{"number":2648,"street":"Coal Street","postalCode":16335,"city":"Los Angeles","country":"United States"}} | true    | no      |
-| [alias](file3.md) | charlie  | 35  | Paris       | ["tag6"]            | {"address":{"number":51,"street":"boulevard de Prague","postalCode":93160,"city":"Paris","country":"France"}}        | false   | true    |
-| [[welcome]]       | sam      | 20  | Paris       | ["tag7", "tag8"]    | {"address":{"number":30,"street":"rue des six frères Ruellan","postalCode":57200,"city":"Paris","country":"France"}} | true    | false   |
-| [[create_me]]     | Marie    | 25  | Bouvignies  | ["tag9", "tag10"]   | {"address":{"number":382,"street":"Industrieweg ","postalCode":7803,"city":"Bouvignies","country":"Belgium"}}        | false   | false   |
-| [[file4\|alias2]] | Valérie  | 55  | Araguaína   | ["tag11", "tag12"]  | {"address":{"number":121,"street":"Rua Vianópolis","postalCode":77825,"city":"Araguaína","country":"Brazil"}}        | false   | yes     |
-
+| filepath                          | username | age | city        | tags                | data                                                                                                                 | ignored | private |
+|-----------------------------------|----------|-----|-------------|---------------------|----------------------------------------------------------------------------------------------------------------------|---------|---------|
+| simple_file.md                    | alice    | 30  | New York    | ["hello", "coucou"] | {"address":{"number":53,"street":"Via Verbano","postalCode":9604,"city":"New York","country":"USA"}}                 | true    | yes     |
+| empty.md                          | bob      | 25  | Los Angeles | ["tag4", "tag5"]    | {"address":{"number":2648,"street":"Coal Street","postalCode":16335,"city":"Los Angeles","country":"United States"}} | true    | no      |
+| [alias](no_content.md)            | charlie  | 35  | Paris       | ["tag6"]            | {"address":{"number":51,"street":"boulevard de Prague","postalCode":93160,"city":"Paris","country":"France"}}        | false   | true    |
+| [[welcome]]                       | sam      | 20  | Paris       | ["tag7", "tag8"]    | {"address":{"number":30,"street":"rue des six frères Ruellan","postalCode":57200,"city":"Paris","country":"France"}} | true    | false   |
+| [[create_me]]                     | Marie    | 25  | Bouvignies  | ["tag9", "tag10"]   | {"address":{"number":382,"street":"Industrieweg ","postalCode":7803,"city":"Bouvignies","country":"Belgium"}}        | false   | false   |
+| [[no_fm\|alias2]]                 | Valérie  | 55  | Araguaína   | ["tag11", "tag12"]  | {"address":{"number":121,"street":"Rua Vianópolis","postalCode":77825,"city":"Araguaína","country":"Brazil"}}        | false   | yes     |
+| [[mustBeCreated\|alias creation]] | Agnès    | 36  | København   | ["tag13", "tag14"]  | {"address":{"number":33,"street":"Nørremarksvej","postalCode":1610,"city":"København","country":"Denmark"}}          | true    | true    |
