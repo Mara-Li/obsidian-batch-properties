@@ -89,7 +89,7 @@ export const config: WebdriverIO.Config = {
 		// or "bail" to quit tests after the first failure.
 	},
 
-	waitforInterval: 250,
+	waitforInterval: 2500,
 	waitforTimeout: 5 * 1000,
 
 	cacheDir: cacheDir,
