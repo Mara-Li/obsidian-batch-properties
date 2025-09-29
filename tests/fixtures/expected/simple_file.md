@@ -16,5 +16,6 @@ data:
     country: USA
 private: true
 ---
-# Title  
+
+# Title
 Content of file 1.
