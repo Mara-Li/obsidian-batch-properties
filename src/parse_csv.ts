@@ -112,6 +112,10 @@ export class ParseCSV {
 			.filter((x) => x.length > 0).length;
 	}
 
+	private detectSeparator(header: string): string | null {
+		return this.separatorRegex.exec(header)?.[0] ?? null;
+	}
+
 	getHeader() {
 		return this.contents[0]
 			.split(this.separator)
@@ -152,7 +156,9 @@ export class ParseCSV {
 		if (this.countColumns(this.contents[0]) <= 1)
 			throw new Error(this.ln("error.csv.malformed"));
 		if (!this.verifySeparator(this.contents[0]))
-			throw new Error(this.ln("error.csv.separator", { sep: this.separator }));
+			throw new Error(
+				this.ln("error.csv.separator", { sep: this.detectSeparator(this.contents[0]) })
+			);
 		const header = this.getHeader();
 		const { indexFilePath, columns } = this.getIndexColumns(header);
 
