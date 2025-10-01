@@ -1,6 +1,6 @@
 {
 	"columnName": {
-		"desc": "The column name that should contains the path to the file that should be batched.",
+		"desc": "The column name that should contain the path to the files that should be batched.",
 		"name": "Column name",
 		"placeholder": "filepath"
 	},
@@ -8,23 +8,23 @@
 		"name": "Batch all files"
 	},
 	"createMissing": {
-		"desc": "If the file to add the properties doesn't exists, it will be created.",
+		"desc": "If the file to add the properties doesn't exist, it will be created.",
 		"name": "Create missing file"
 	},
 	"error": {
 		"csv": {
 			"malformed": "Your CSV is malformed: there is no column.",
 			"noFileColumn": "{{- col}} is not present in the provided file.",
-			"noOtherColumn": "There is no property in the file",
+			"noOtherColumn": "There are no properties to add from the table.",
 			"separator": "The specified separator is invalid. You seems to use \"{{- sep}}\" as separator."
 		},
 		"noFile": "File not found, or wrong extension used.",
 		"noPath": "The path to the batch file is empty!",
 		"notFound": "The batch is not found at the provided path ({{- path}}).",
-		"notMarkdown": "The plugin can only create properties for markdown file."
+		"notMarkdown": "The plugin can only create properties for Markdown file."
 	},
 	"ignoreColumns": {
-		"desc": "The data in theses column won't be added in the properties.",
+		"desc": "The data in these columns won't be added in the properties.",
 		"name": "Columns to ignore",
 		"placeholder": "col1, col2, col3"
 	},
@@ -54,7 +54,7 @@
 	},
 	"separator": {
 		"comma": "Comma",
-		"desc": "CSV column separator.",
+		"desc": "File type and separator (CSV separator or Markdown table)",
 		"md": "Markdown table",
 		"name": "Separator",
 		"pipe": "Pipe",
@@ -62,6 +62,6 @@
 		"tab": "Tabulation"
 	},
 	"warn": {
-		"noFile": "The {{- file}} doesn't exists, skipping."
+		"noFile": "The {{- file}} doesn't exist, skipping it."
 	}
 }

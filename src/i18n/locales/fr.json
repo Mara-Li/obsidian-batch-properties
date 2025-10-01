@@ -1,0 +1,67 @@
+{
+	"columnName": {
+		"desc": "Le nom de la colonne qui doit contenir le chemin d'accès aux fichier à traiter.",
+		"name": "Nom de la colonne",
+		"placeholder": "chemin"
+	},
+	"command": {
+		"name": "Traiter tous les fichiers"
+	},
+	"createMissing": {
+		"desc": "Si le fichier dans lequel ajouter les propriétés n'existe pas, il sera créé.",
+		"name": "Créer les fichiers manquants"
+	},
+	"error": {
+		"csv": {
+			"malformed": "Votre fichier CSV est mal formé : il ne contient aucune colonne.",
+			"noFileColumn": "{{- col}} n'est pas présent dans le fichier fourni.",
+			"noOtherColumn": "Il n'y a aucune propriétés à ajouter depuis la table.",
+			"separator": "Le séparateur spécifié n'est pas valide. Vous semblez utiliser « {{- sep}} » comme séparateur."
+		},
+		"noFile": "Fichier introuvable ou extension incorrecte.",
+		"noPath": "Le chemin d'accès au fichier batch est vide !",
+		"notFound": "Le fichier est introuvable à l'emplacement indiqué ({{- path}}).",
+		"notMarkdown": "Le plugin ne peut créer des propriétés que pour des fichiers Markdown."
+	},
+	"ignoreColumns": {
+		"desc": "Les données contenues dans ces colonnes ne seront pas ajoutées dans les propriétés.",
+		"name": "Colonne à ignorer",
+		"placeholder": "col1, col2, col3"
+	},
+	"modal": {
+		"created": "Création",
+		"errors": "Erreurs",
+		"noChanges": "Aucun changement",
+		"success": "Succès",
+		"updated": "Mis-à-jour"
+	},
+	"notice": {
+		"completed": "Terminé",
+		"loading": "Chargement"
+	},
+	"openModal": {
+		"desc": "Ouvrez une fenêtre modale affichant les résultats après le traitement..",
+		"name": "Ouvrir les résultats"
+	},
+	"path": {
+		"desc": "Chemin d'accès au fichier contenant les propriétés à ajouter",
+		"name": "Chemin",
+		"placeholder": "chemin/vers/fichier.csv",
+		"success": "Fichier correctement analysé, peut être utilisé pour le traitement."
+	},
+	"result": {
+		"title": "Résultats"
+	},
+	"separator": {
+		"comma": "Virgule",
+		"desc": "Type de fichier et séparateur (séparateur CSV ou tableau Markdown)",
+		"md": "Table Markdown",
+		"name": "Séparateur",
+		"pipe": "Pipe",
+		"semicolon": "Point virgule",
+		"tab": "Tabulation"
+	},
+	"warn": {
+		"noFile": "Le {{- fichier}} n'existe pas, ignoré."
+	}
+}
