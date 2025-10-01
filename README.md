@@ -130,21 +130,10 @@ Empty values: skipped (they do not overwrite existing frontmatter keys).
 - For Markdown tables: first two lines (header + separators) are skipped when parsing rows
 - File path resolution via links uses Obsidian’s metadata cache: ambiguous links may resolve unexpectedly
 
-## 🛠️ Troubleshooting
-| Problem              | Likely Cause                     | Fix                                      |
-|----------------------|----------------------------------|------------------------------------------|
-| “noPath” error       | No source file set               | Set the source file in settings          |
-| “noFile” error       | Invalid path or wrong extension  | Match extension to separator (CSV vs md) |
-| “malformed” error    | Bad header or separator mismatch | Check separator + headers                |
-| “noFileColumn” error | File column not found            | Adjust “File column name” or header row  |
-| Value not applied    | Empty cell or ignored column     | Review data / ignored list               |
-| No modal displayed   | “Open result modal” disabled     | Enable the setting                       |
-
-
 ### 🎼 Languages
 
 - [x] English
-- [ ] French
+- [x] French
 
 To add a translation:
 1. Fork the repository
