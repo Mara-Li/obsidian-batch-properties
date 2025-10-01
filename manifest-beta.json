@@ -1,7 +1,7 @@
 {
 	"id": "batch-properties",
 	"name": "Batch Properties",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"minAppVersion": "1.5.12",
 	"description": "Batch update the frontmatter from a CSV or a markdown tables",
 	"author": "Mara-Li",

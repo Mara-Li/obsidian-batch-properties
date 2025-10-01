@@ -1,6 +1,6 @@
 {
 	"name": "batch-properties",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Batch update the frontmatter from a CSV or a markdown tables",
 	"main": "main.ts",
 	"private": true,
